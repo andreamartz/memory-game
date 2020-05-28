@@ -106,11 +106,6 @@ function handleCardClick(event) {
 }
 
 // when the DOM loads
-document.addEventListener("click", function (event) {
-  // if ((event.target === button.textContent = "New Game")) {
-  //   createDivsForColors(shuffledColors);
-  // }
-});
 
 let cards = document.querySelectorAll("#game > div");
 let cardsArr = Array.prototype.slice.call(cards);
