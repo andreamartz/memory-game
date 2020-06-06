@@ -6,7 +6,10 @@
 }
 
 :root {
-  --green: rgba(62, 243, 107, 0.872);
+  --off-white: #effffb;
+  --green: #50d890;
+  --blue: #4f98ca;
+  --dark: #272727;
 }
 
 #game div {
