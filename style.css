@@ -1,3 +1,17 @@
+/* GLOBAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --off-white: #effffb;
+  --green: #50d890;
+  --blue: #4f98ca;
+  --dark: #272727;
+}
+
 #game div {
   border: 1px solid black;
   width: 15%;
