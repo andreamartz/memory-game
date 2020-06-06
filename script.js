@@ -1,7 +1,4 @@
 const gameContainer = document.getElementById("game");
-let allowClicks = true;
-let nonMatches;
-let 
 
 const COLORS = [
   "red",
@@ -13,7 +10,7 @@ const COLORS = [
   "blue",
   "green",
   "orange",
-  "purple",
+  "purple"
 ];
 
 // here is a helper function to shuffle an array
@@ -60,52 +57,11 @@ function createDivsForColors(colorArray) {
   }
 }
 
+// TODO: Implement this function!
 function handleCardClick(event) {
-  let clickedCard = event.target;
-  nonMatches = cardsArr.filter(
-    (card) => card.getAttribute("data-matched") === "no"
-  );
-  // ***** PREVENT ILLEGAL CLICKS *****
-  if (!allowClicks) return;
-  if (event.target.hasAttribute("data-matched")) return;
-  if (nonMatches.length === 2) return;
-
-  // Mark the clicked card as flipped and not matched
-  clickedCard.classList.toggle("flipped");
-  clickedCard.setAttribute("data-matched", "no");
-
-  nonMatches = cardsArr.filter(
-    (card) => card.getAttribute("data-matched") === "no"
-  );
-
-  // once a turn has completed (i.e., two cards have been flipped), we need to determine whether the cards are a match
-  if (nonMatches.length === 2) {
-    let card1 = nonMatches[0];
-    let card2 = nonMatches[1];
-    // if a match....
-    if (card1.classList.value === card2.classList.value) {
-      card1.setAttribute("data-matched", "yes");
-      card2.setAttribute("data-matched", "yes");
-      // update the nonMatches
-      nonMatches = cardsArr.filter(
-        (card) => card.getAttribute("data-matched") === "no"
-      );
-      allowClicks = true;
-      return;
-      // else if not a match...
-    } else {
-      setTimeout(function () {
-        card1.classList.remove("flipped");
-        card1.removeAttribute("data-matched");
-        card2.classList.remove("flipped");
-        card2.removeAttribute("data-matched");
-        allowClicks = true;
-      }, 1000);
-    }
-  } else return;
+  // you can use event.target to see which element was clicked
+  console.log("you just clicked", event.target);
 }
 
 // when the DOM loads
-
-let cards = document.querySelectorAll("#game > div");
-let cardsArr = Array.prototype.slice.call(cards);
+createDivsForColors(shuffledColors);
