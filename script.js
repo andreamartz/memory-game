@@ -1,4 +1,10 @@
 const cardsContainer = document.querySelector(".cards-container");
+const score = document.querySelector("#score");
+let allowClicks = true;
+let card1 = null;
+let card2 = null;
+score.innerHTML = 0;
+let cardsFlipped = 0;
 
 const PLANTS = [
   "plant1",
@@ -43,6 +49,7 @@ function shuffle(array) {
 }
 
 let shuffledPlants = shuffle(PLANTS);
+console.log(shuffledPlants);
 
 // this function loops over the array of colors
 // it creates a new div and gives it a class with the value of the color
@@ -71,7 +78,7 @@ function createDivsForPlants(plantArray) {
 
     cardFront.innerText = "MEMORY";
     // call a function handleCardClick when a div is clicked on
-    // cardContainer.addEventListener("click", handleCardClick);
+    cardContainer.addEventListener("click", handleCardClick);
 
     // append the elements together
     cardBack.append(cardImg);
@@ -82,52 +89,59 @@ function createDivsForPlants(plantArray) {
   }
 }
 
-// function handleCardClick(event) {
-// let clickedCard = event.target;
-// nonMatches = cardsArr.filter(
-// (card) => card.getAttribute("data-matched") === "no"
-// );
-// ***** PREVENT ILLEGAL CLICKS *****
-// if (!allowClicks) return;
-// if (event.target.hasAttribute("data-matched")) return;
-// if (nonMatches.length === 2) return;
+function handleCardClick(event) {
+  // ***** PREVENT ILLEGAL CLICKS *****
+  if (!allowClicks) return;
+  if (event.currentTarget.classList.contains("flipped")) return;
 
-// Mark the clicked card as flipped and not matched
-// clickedCard.classList.toggle("flipped");
-// clickedCard.setAttribute("data-matched", "no");
+  score.innerHTML = parseInt(score.innerHTML) + 1;
 
-// nonMatches = cardsArr.filter(
-// (card) => card.getAttribute("data-matched") === "no"
-// );
+  // save the target card container to a variable and add class "flipped"
+  let clickedCardContainer = event.currentTarget;
+  clickedCardContainer.classList.add("flipped");
 
-// once a turn has completed (i.e., two cards have been flipped), we need to determine whether the cards are a match
-// if (nonMatches.length === 2) {
-// let card1 = nonMatches[0];
-// let card2 = nonMatches[1];
-// if a match....
-// if (card1.classList.value === card2.classList.value) {
-// card1.setAttribute("data-matched", "yes");
-// card2.setAttribute("data-matched", "yes");
-// update the nonMatches
-// nonMatches = cardsArr.filter(
-// (card) => card.getAttribute("data-matched") === "no"
-// );
-// allowClicks = true;
-// return;
-// else if not a match...
-// } else {
-// setTimeout(function () {
-// card1.classList.remove("flipped");
-// card1.removeAttribute("data-matched");
-// card2.classList.remove("flipped");
-// card2.removeAttribute("data-matched");
-// allowClicks = true;
-// }, 1000);
-// }
-// } else return;
-// }
+  // AT LEAST ONE CARD FLIPPED
+  // assign the clicked card to either card1 or card2
+  if (!card1 || !card2) {
+    card1 = card1 || clickedCardContainer;
+    card2 = clickedCardContainer === card1 ? null : clickedCardContainer;
+  }
+
+  // TWO CARDS FLIPPED
+  if (card1 && card2) {
+    allowClicks = false;
+
+    // a match
+    if (card1.className === card2.className) {
+      // leave them flipped
+      cardsFlipped += 2;
+      // remove their event handlers
+      card1.removeEventListener("click", handleCardClick);
+      card2.removeEventListener("click", handleCardClick);
+      // set card1 and card2 back to null
+      card1 = null;
+      card2 = null;
+      setTimeout(function () {
+        if (cardsFlipped === PLANTS.length) alert("game over!");
+      }, 1000);
+
+      // allow clicks
+      allowClicks = true;
+      // not a match
+    } else {
+      // mark
+      setTimeout(function () {
+        card1.classList.remove("flipped");
+        card2.classList.remove("flipped");
+        card1 = null;
+        card2 = null;
+        allowClicks = true;
+      }, 1000);
+    }
+  }
+}
 
 // when the DOM loads
 createDivsForPlants(shuffledPlants);
-// let cards = document.querySelectorAll("#game > div");
-// let cardsArr = Array.prototype.slice.call(cards);
+let cards = document.querySelectorAll("#game > div");
+let cardsArr = Array.prototype.slice.call(cards);
