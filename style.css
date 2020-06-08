@@ -14,17 +14,49 @@
 
 body {
   background-color: var(--off-white);
+  color: var(--dark);
 }
 
-/* begin given styles */
-/* #game div {
-  border: 1px solid black;
-  width: 15%;
-  height: 200px;
-  margin: 10px;
+header {
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  margin: 2rem auto;
+}
+
+p {
   display: inline-block;
-} */
-/* end given styles */
+}
+
+p,
+#score {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+p,
+button {
+  margin: 0 auto 1rem auto;
+}
+
+button {
+  padding: 5px 10px;
+  margin-left: 20px;
+  background-color: var(--blue);
+  border-radius: 7px;
+}
+
+p,
+#restart-game {
+  text-decoration: none;
+  font-size: 1.25rem;
+}
+
+#restart-game {
+  color: white;
+}
 
 .cards-container {
   display: flex;
@@ -39,10 +71,6 @@ body {
   margin: 10px;
   perspective: 1000px;
 }
-
-/* .card-container:hover .card {
-  transform: rotateY(180deg);
-} */
 
 .card-container.flipped .card {
   transform: rotateY(180deg);
@@ -79,34 +107,3 @@ body {
   color: var(--dark);
   transform: rotateY(180deg);
 }
-
-/*
-.
-.
-.
-.
-.
-.
-.
-.
-.
-*/
-/* .red.flipped {
-  background-color: red;
-}
-
-.blue.flipped {
-  background-color: blue;
-}
-
-.green.flipped {
-  background-color: green;
-}
-
-.orange.flipped {
-  background-color: orange;
-}
-
-.purple.flipped {
-  background-color: purple;
-} */

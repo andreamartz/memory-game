@@ -1,8 +1,10 @@
 const cardsContainer = document.querySelector(".cards-container");
+const score = document.querySelector("#score");
 let allowClicks = true;
 let card1 = null;
 let card2 = null;
-let numFlipped = 0;
+score.innerHTML = 0;
+let cardsFlipped = 0;
 
 const PLANTS = [
   "plant1",
@@ -90,9 +92,9 @@ function createDivsForPlants(plantArray) {
 function handleCardClick(event) {
   // ***** PREVENT ILLEGAL CLICKS *****
   if (!allowClicks) return;
-  if (numFlipped === 2) return;
+  if (event.currentTarget.classList.contains("flipped")) return;
 
-  console.log(allowClicks, numFlipped);
+  score.innerHTML = parseInt(score.innerHTML) + 1;
 
   // save the target card container to a variable and add class "flipped"
   let clickedCardContainer = event.currentTarget;
@@ -108,17 +110,21 @@ function handleCardClick(event) {
   // TWO CARDS FLIPPED
   if (card1 && card2) {
     allowClicks = false;
-    console.log("card1 class name: ", card1.className);
-    console.log("card2 class name: ", card2.className);
+
     // a match
     if (card1.className === card2.className) {
       // leave them flipped
+      cardsFlipped += 2;
       // remove their event handlers
       card1.removeEventListener("click", handleCardClick);
       card2.removeEventListener("click", handleCardClick);
       // set card1 and card2 back to null
       card1 = null;
       card2 = null;
+      setTimeout(function () {
+        if (cardsFlipped === PLANTS.length) alert("game over!");
+      }, 1000);
+
       // allow clicks
       allowClicks = true;
       // not a match
@@ -130,96 +136,12 @@ function handleCardClick(event) {
         card1 = null;
         card2 = null;
         allowClicks = true;
-        numFlipped = 0;
       }, 1000);
     }
   }
 }
-// are the two cards not matches?
-
-// nonMatches = cardsArr.filter(
-//   (card) => card.getAttribute("data-matched") === "no"
-// );
-
-//   // Mark the clicked card as flipped and not matched
-//   clickedCard.classList.toggle("flipped");
-//   clickedCard.setAttribute("data-matched", "no");
-
-//   nonMatches = cardsArr.filter(
-//     (card) => card.getAttribute("data-matched") === "no"
-//   );
-
-//   // once a turn has completed (i.e., two cards have been flipped), we need to determine whether the cards are a match
-//   if (nonMatches.length === 2) {
-//     let card1 = nonMatches[0];
-//     let card2 = nonMatches[1];
-//     // if a match....
-//     if (card1.classList.value === card2.classList.value) {
-//       card1.setAttribute("data-matched", "yes");
-//       card2.setAttribute("data-matched", "yes");
-//       // update the nonMatches
-//       nonMatches = cardsArr.filter(
-//         (card) => card.getAttribute("data-matched") === "no"
-//       );
-//       allowClicks = true;
-//       return;
-//       // else if not a match...
-//     } else {
-//       setTimeout(function () {
-//         card1.classList.remove("flipped");
-//         card1.removeAttribute("data-matched");
-//         card2.classList.remove("flipped");
-//         card2.removeAttribute("data-matched");
-//         allowClicks = true;
-//       }, 1000);
-//     }
-//   } else return;
-// }
 
 // when the DOM loads
 createDivsForPlants(shuffledPlants);
 let cards = document.querySelectorAll("#game > div");
 let cardsArr = Array.prototype.slice.call(cards);
-
-// function handleCardClick(e) {
-//   if (noClicking) return;
-//   if (e.target.classList.contains("flipped")) return;
-
-//   let currentCard = e.target;
-//   currentCard.style.backgroundColor = currentCard.classList[0];
-
-//   if (!card1 || !card2) {
-//     currentCard.classList.add("flipped");
-//     card1 = card1 || currentCard;
-//     card2 = currentCard === card1 ? null : currentCard;
-//   }
-
-//   if (card1 && card2) {
-//     noClicking = true;
-//     // debugger
-//     let gif1 = card1.className;
-//     let gif2 = card2.className;
-
-//     if (gif1 === gif2) {
-//       cardsFlipped += 2;
-//       card1.removeEventListener("click", handleCardClick);
-//       card2.removeEventListener("click", handleCardClick);
-//       card1 = null;
-//       card2 = null;
-//       noClicking = false;
-//     } else {
-//       setTimeout(function () {
-//         card1.style.backgroundColor = "";
-//         card2.style.backgroundColor = "";
-//         card1.classList.remove("flipped");
-//         card2.classList.remove("flipped");
-//         card1 = null;
-//         card2 = null;
-//         noClicking = false;
-//       }, 1000);
-//     }
-//   }
-
-//   if (cardsFlipped === COLORS.length) alert("game over!");
-// }
-//
